@@ -1,8 +1,6 @@
 # Atividade - Lab 01 - Mini Sistema de Cadastro de Produtos
 
-**Disciplina:** Computação Distribuída   
-**Entrega:** Individual, em duplas ou em trios
-**Valor:** Entra nas atividades da N1
+**Disciplina:** Computação Distribuída
 
 ---
 
@@ -216,19 +214,6 @@ Incluir no documento da entrega:
 
 ---
 
-## Critérios de Avaliação
-
-| Critério                                    | Peso  |
-|---------------------------------------------|-------|
-| Funcionamento correto das 6 funcionalidades | 40%   |
-| Uso correto de alocação dinâmica            | 20%   |
-| Uso correto de ponteiros e referências      | 15%   |
-| Liberação adequada de memória               | 10%   |
-| Organização e modularização do código       | 10%   |
-| Capacidade de explicar o código (defesa)    | 5%    |
-
----
-
 ## Dicas Importantes
 
 1. **Comece simples:** Implemente primeiro a adição e listagem. Depois adicione as outras funcionalidades.
@@ -243,21 +228,3 @@ Incluir no documento da entrega:
 4. **Cuidado com `scanf` e strings:** Para ler strings com espaços, use `fgets` ou `scanf(" %[^\n]", buffer)`.
 
 5. **Desenhe antes de codificar:** Faça um diagrama de como a memória estará organizada. Isso ajuda muito a entender os ponteiros.
-
----
-
-## Forma de Entrega
-
-- Entregar um aquivo PDF via Moodle:
-    - Inlcuir o nome dos integrantes do grupo em ordem afabética e RAs
-    - Inlcuir o código-fonte no documento ou link para o repositório
-    - Incluir prints de testes realizados
-    - Icnluir as respostas das perguntas
-- Não é preciso entregar o código-fonte, a não ser que use um repositório (recomendado) para a equipe
-- Seu código deve compilar sem erros com, exemplo: `gcc -Wall -o atividade atividade_01_nome_ra.c` se o professor quiser rodá-lo integralmente.
-
----
-
-**Boa sorte e bom trabalho!**
-
-*Lembre-se: entender o que você está fazendo é mais importante do que apenas fazer funcionar.*
