@@ -2,9 +2,9 @@
 
 Sistema de Gerenciamento de Biblioteca Digital distribuído, implementado com Java 17, Maven e gRPC, demonstrando os quatro tipos de comunicação RPC.
 
-## Aluno
+## Aluno(s)
 
-Gabriel Pereira Faravola - 10427189
+> Preencha aqui: **Nome Completo — RA**
 
 ---
 
@@ -29,14 +29,12 @@ Abra **dois terminais** na raiz do projeto.
 
 **Terminal 1 — Servidor:**
 ```bash
-java -cp target/biblioteca-grpc-1.0-SNAPSHOT-shaded.jar \
-     br.mackenzie.biblioteca.server.ServidorBiblioteca
+java -jar target/biblioteca-grpc-1.0-SNAPSHOT-servidor.jar
 ```
 
 **Terminal 2 — Cliente:**
 ```bash
-java -cp target/biblioteca-grpc-1.0-SNAPSHOT-shaded.jar \
-     br.mackenzie.biblioteca.client.ClienteBiblioteca
+java -jar target/biblioteca-grpc-1.0-SNAPSHOT-cliente.jar
 ```
 
 ---

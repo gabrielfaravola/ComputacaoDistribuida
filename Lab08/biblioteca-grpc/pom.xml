@@ -19,7 +19,6 @@
     </properties>
 
     <dependencies>
-        <!-- gRPC stub + protobuf -->
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
@@ -40,7 +39,6 @@
             <artifactId>protobuf-java</artifactId>
             <version>${protobuf.version}</version>
         </dependency>
-        <!-- Needed for generated annotations -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>annotations-api</artifactId>
@@ -58,6 +56,7 @@
             </extension>
         </extensions>
         <plugins>
+            <!-- Geração de código a partir do .proto -->
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
@@ -76,6 +75,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -85,54 +85,56 @@
                     <target>17</target>
                 </configuration>
             </plugin>
-            <!-- Jar executável para servidor -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <id>servidor</id>
-                        <phase>package</phase>
-                        <goals><goal>jar</goal></goals>
-                        <configuration>
-                            <classifier>servidor</classifier>
-                            <archive>
-                                <manifest>
-                                    <mainClass>br.mackenzie.biblioteca.server.ServidorBiblioteca</mainClass>
-                                </manifest>
-                            </archive>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>cliente</id>
-                        <phase>package</phase>
-                        <goals><goal>jar</goal></goals>
-                        <configuration>
-                            <classifier>cliente</classifier>
-                            <archive>
-                                <manifest>
-                                    <mainClass>br.mackenzie.biblioteca.client.ClienteBiblioteca</mainClass>
-                                </manifest>
-                            </archive>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
+            <!--
+                Shade plugin: gera dois fat-jars independentes.
+                  servidor.jar  → main = ServidorBiblioteca
+                  cliente.jar   → main = ClienteBiblioteca
+                O jar padrão (sem classifier) não recebe Main-Class
+                para não conflitar.
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.5.0</version>
                 <executions>
+                    <!-- Fat-jar do servidor -->
                     <execution>
+                        <id>shade-servidor</id>
                         <phase>package</phase>
                         <goals><goal>shade</goal></goals>
                         <configuration>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>shaded</shadedClassifierName>
+                            <shadedClassifierName>servidor</shadedClassifierName>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>br.mackenzie.biblioteca.server.ServidorBiblioteca</mainClass>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                    <!-- Fat-jar do cliente -->
+                    <execution>
+                        <id>shade-cliente</id>
+                        <phase>package</phase>
+                        <goals><goal>shade</goal></goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>cliente</shadedClassifierName>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>br.mackenzie.biblioteca.client.ClienteBiblioteca</mainClass>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
