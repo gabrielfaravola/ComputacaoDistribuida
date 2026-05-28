@@ -4,7 +4,7 @@ Sistema de Gerenciamento de Biblioteca Digital distribuído, implementado com Ja
 
 ## Aluno(s)
 
-> Preencha aqui: **Nome Completo — RA**
+**Gabriel Pereira Faravola — 10427189**
 
 ---
 
